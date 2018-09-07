@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:attendence_app/Database/database.dart';
+import 'package:flushbar/flushbar.dart';
 
 class YearsPage extends StatefulWidget {
   @override
@@ -30,6 +31,22 @@ class _YearsPageState extends State<YearsPage> {
     db.addYears(text).whenComplete(() {
       updateYears();
     });
+    Flushbar(
+      message: "",
+      duration: Duration(seconds: 2),
+      flushbarPosition: FlushbarPosition.BOTTOM,
+      backgroundColor: Theme.of(context).primaryColor,
+    )
+      ..titleText = Text(
+        "Added "+text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 17.0,
+          fontWeight: FontWeight.bold,
+        ),
+      )
+      ..icon=Icon(Icons.text_format)
+      ..show(context);
   }
 
   var count = 0;
@@ -63,8 +80,26 @@ class _YearsPageState extends State<YearsPage> {
                 label: Text("Add"),
                 icon: Icon(Icons.add),
                 onPressed: () {
-                  if(controller.text.trim().length != 0){
+                  if (controller.text.trim().length != 0) {
                     addYear(controller.text);
+                    controller.text = "";
+                  } else {
+                    Flushbar(
+                      message: "",
+                      duration: Duration(seconds: 2),
+                      flushbarPosition: FlushbarPosition.BOTTOM,
+                      backgroundColor: Theme.of(context).primaryColor,
+                    )
+                      ..titleText = Text(
+                        "Please enter some text",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                      ..icon=Icon(Icons.text_format)
+                      ..show(context);
                   }
                 },
               ),
