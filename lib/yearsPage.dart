@@ -33,6 +33,7 @@ class _YearsPageState extends State<YearsPage> {
   }
 
   var count = 0;
+  TextEditingController controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +47,28 @@ class _YearsPageState extends State<YearsPage> {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return ListTile(
-                leading: CircleAvatar(child: Icon(Icons.add)),
-                title: Text("Add year"),
-                onTap: () {
-                  addYear("SecondYear");
-//                db.deleteDb();
-                });
+              title: TextFormField(
+                controller: controller,
+                enabled: true,
+//                  inputFormatters: ,
+                textAlign: TextAlign.left,
+                decoration: InputDecoration(
+                  hintText: "Enter the year to add",
+                  border: OutlineInputBorder(
+                      borderRadius:
+                          const BorderRadius.all(const Radius.circular(6.0))),
+                ),
+              ),
+              trailing: OutlineButton.icon(
+                label: Text("Add"),
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  if(controller.text.trim().length != 0){
+                    addYear(controller.text);
+                  }
+                },
+              ),
+            );
           }
           return AnimatedContainer(
             padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
@@ -74,7 +91,7 @@ class _YearsPageState extends State<YearsPage> {
 //                backgroundColor: th.primaryColor.withOpacity(0.5),
               ),
               title: Text(db.yearsList[index - 1]),
-              trailing: Row(
+              trailing: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
