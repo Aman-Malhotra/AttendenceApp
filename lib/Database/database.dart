@@ -36,6 +36,7 @@ class DatabaseClient {
     await _db.execute("""
     CREATE TABLE $yearText(classes TEXT)
     """);
+    print("add year completed");
     return 0;
   }
 
@@ -45,8 +46,8 @@ class DatabaseClient {
       yearsList = [];
       for (Map m in l) {
         yearsList.add(m.values.elementAt(0));
-//        print("List in dbClass = "+m.values.elementAt(0).toString());
       }
+      print("Function finished");
       return 0;
     });
   }
@@ -54,5 +55,6 @@ class DatabaseClient {
   Future removeYear(String yearText) async {
     _db.rawQuery("DROP TABLE $yearText");
     _db.rawDelete("DELETE FROM YearsTable WHERE year = ?",[yearText]);
+    print("remove year completed");
   }
 }

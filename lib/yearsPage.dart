@@ -22,9 +22,10 @@ class _YearsPageState extends State<YearsPage> {
   }
 
   updateYears() {
-    db.getYears().whenComplete(() {
+    db.getYears().then((dynamic) {
       setState(() {});
     });
+    print("I was being called");
   }
 
   addYear(String text) {
@@ -45,8 +46,12 @@ class _YearsPageState extends State<YearsPage> {
           fontWeight: FontWeight.bold,
         ),
       )
-      ..icon=Icon(Icons.text_format)
       ..show(context);
+  }
+  removeYear(int index){
+    db.removeYear(db.yearsList[index - 1]).whenComplete((){
+      updateYears();
+    });
   }
 
   var count = 0;
@@ -98,7 +103,6 @@ class _YearsPageState extends State<YearsPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       )
-                      ..icon=Icon(Icons.text_format)
                       ..show(context);
                   }
                 },
@@ -139,8 +143,7 @@ class _YearsPageState extends State<YearsPage> {
                   IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        db.removeYear(db.yearsList[index - 1]);
-                        updateYears();
+                        removeYear(index);
                       }),
                 ],
               ),
